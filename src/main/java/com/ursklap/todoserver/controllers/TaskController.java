@@ -1,13 +1,18 @@
 package com.ursklap.todoserver.controllers;
 
 import com.ursklap.todoserver.models.Task;
+import com.ursklap.todoserver.models.dto.TaskFilterKey;
+import com.ursklap.todoserver.models.dto.TaskSearchCriteria;
 import com.ursklap.todoserver.services.TaskService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -22,11 +27,18 @@ public class TaskController {
             .body(taskService.create(category));
   }
 
+//  @GetMapping
+//  public ResponseEntity<List<Task>> getAll(@RequestBody(required = false) Optional<TaskFilterKey> taskFilterKey) {
+//    return ResponseEntity
+//            .status(HttpStatus.OK)
+//            .body(taskService.getAll(taskFilterKey));
+//  }
+
   @GetMapping
-  public ResponseEntity<List<Task>> getAll() {
+  public ResponseEntity<Page<Task>> getAll(TaskSearchCriteria taskSearchCriteria) {
     return ResponseEntity
             .status(HttpStatus.OK)
-            .body(taskService.getAll());
+            .body(taskService.getAll(taskSearchCriteria));
   }
 
   @GetMapping("/{id}")
